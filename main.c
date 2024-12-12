@@ -21,7 +21,8 @@ int main (int argc, char *argv[]) {
                 int id;
                 printf("Ingrese el id del libro a buscar: ");
                 scanf("%d", &id);
-                buscarLibroId(libros, id);
+                flush();
+                buscarLibroId(libros, i, id);
                 break;
             case 4:
                 char titulo[100];
