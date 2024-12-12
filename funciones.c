@@ -3,7 +3,7 @@
 #include "funciones.h"
 
 void flush(){
-    flush();
+    while(getchar()!='\n');
 }
 
 
@@ -31,7 +31,7 @@ int menu(){
 
 
 void registrarLibros(struct Libro libros[20], int i){
-    const *states[]={"Disponible", "Ocupado"};
+    int statusIndex;
     
     printf(" Libro %d\n", i+1);
     printf("Ingrese el nombre del libro: ");
@@ -46,18 +46,29 @@ void registrarLibros(struct Libro libros[20], int i){
     scanf("&d", &libros[i].year);
     flush();
 
-    printf("Ingrese el numero correspondiente al estado del libro\n"
-            "1 para disponible, o 0 para prestado: ");
-    scanf("%d", &libros[i].stateIndex);
-    flush();
-
-    char status[10]=states[libros[i].stateIndex];
+    do{
+        printf("Ingrese el numero correspondiente al estado del libro\n"
+                "1 para disponible, o 0 para prestado: ");
+        scanf("%d", &statusIndex);
+        flush();
+        if (statusIndex==0) strcpy(libros[i].status, "Ocupado");
+        else if (statusIndex==1) strcpy(libros[i].status, "Disponible");
+        else printf("Opcion no valida. Ingrese de nuevo");
+    }while (statusIndex!=0 && statusIndex!=1);
 
     libros[i].id = i+1;
 }
 
 void mostrarLibros(struct Libro libros[20], int c){
-    printf ("N° de libro        ")
+    printf("+-------+------------+------------+-----------------+--------------+\n");
+    printf ("| %-5s | %-10s | %-10s | %-15s | %-12s |\n", "ID", "Titulo", "Autor", "Año de publicacion", "Estado"); //2 tabs
+    for (int i=0; i<c; i++){
+        printf("+-------+------------+------------+-----------------+--------------+\n");
+        printf("| %-5d | %-10s | %-10s | %-15d | %-12s |\n", libros[i].id, libros[i].title, libros[i].author, libros[i].year, libros[i].status);
+    }
+}
+
+void buscarLibroId(struct Libro libros[20], int c, int id){
     for (int i=0; i<c; i++){
         
     }
