@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "funciones.h"
 
 int main (int argc, char *argv[]) {
@@ -6,6 +7,7 @@ int main (int argc, char *argv[]) {
     struct Libro libros[20];
     int opc;
     int i=0;
+    char titulo[100]="";
     do{
         opc = menu();
         switch (opc)
@@ -25,16 +27,31 @@ int main (int argc, char *argv[]) {
                 buscarLibroId(libros, i, id);
                 break;
             case 4:
-                char titulo[100];
                 printf("Ingrese el titulo del libro a buscar: ");
-                scanf("%s", titulo);
-                buscarLibroTitulo(libros, titulo);
+                fgets(titulo, sizeof(titulo), stdin);
+                titulo[strcspn(titulo, "\n")] = '\0';
+                buscarLibroTitulo(libros, i, titulo);
+                titulo[0]='\0';
                 break;
             case 5:
+                printf("Ingrese el titulo del libro cuyo estado se va a modificar: ");
+                fgets(titulo, sizeof(titulo), stdin);
+                titulo[strcspn(titulo, "\n")] = '\0';
+                actualizarEstado(libros, i, titulo);
+                titulo[0]='\0';
                 break;
             case 6:
+                printf("Ingrese el titulo del libro a eliminar: ");
+                fgets(titulo, sizeof(titulo), stdin);
+                titulo[strcspn(titulo, "\n")] = '\0';
+                eliminarLibro(libros, i, titulo);
+                titulo[0]='\0';
                 break;
             case 7:
+                printf("Programa detenido\n");
+                break;
+            default:
+                printf("Opcion no valida. Ingrese de nuevo\n");
                 break;
         }
     }while(opc != 7);
